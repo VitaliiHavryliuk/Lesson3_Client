@@ -1,0 +1,54 @@
+﻿@import url('font/quicksand.css');
+
+body, html {
+    height: 100%;
+}
+
+body {
+    padding-top: 6rem;
+    flex-direction: column;
+    font-family: 'quicksand';
+    overflow-y: hidden;
+}
+
+form {
+    width: 100%;
+}
+
+
+.form-group.row > .col-form-label {
+    text-align: right;
+}
+
+.top-bar {
+    height: 6rem;
+    background: rgb(2,0,36);
+    background: linear-gradient(267deg, rgba(2,0,36,1) 0%, rgba(181,98,198,1) 33%, rgba(0,212,255,1) 100%);
+    display:flex;
+    align-items: stretch;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    padding: 0 1rem;
+    position:fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.logo {
+    display: flex;
+}
+
+.logo > img {
+    margin-right: 3rem;
+    width: 9rem;
+}
+
+
+.content {
+    display: flex;
+    height: 100%;
+    z-index: 1;
+    background-color: white;
+}

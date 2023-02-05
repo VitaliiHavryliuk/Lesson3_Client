@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<div id="app">
+    <header class="top-bar">
+        <a class="logo" href="">
+            <img src="images/logo1.png" />
+        </a>
+    </header>
+
+    <div class="content">
+        <main>
+            @Body
+        </main>
+    </div>
+
+    <footer>
+        &copy; ToBeer List @DateTime.UtcNow.Year
+    </footer>
+</div>
