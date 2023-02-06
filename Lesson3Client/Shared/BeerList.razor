@@ -1,0 +1,45 @@
+﻿@using Models.Output
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div>@ErrorMessage</div>
+}
+else if (Beers != null && Beers.Count() > 0)
+{
+    <ul class="list">
+        @foreach (var beer in Beers)
+        {
+            <li role="presentation">
+                <div class="card">
+                    <CardContent Name="@beer.Name"
+                                 Description="@beer.Description" />
+
+                    <footer class="card-footer">
+
+                        <ButtonFooter Class="delete-item"
+                                      IconClasses="fas fa-trash"
+                                      OnClick="@(async _ => await DeleteBeer.InvokeAsync(beer))"
+                                      Label="Delete" />
+
+                        <ButtonFooter Class="edit-item"
+                                      IconClasses="fas fa-edit"
+                                      OnClick="@(async _ => await SelectBeer.InvokeAsync(beer))"
+                                      Label="Edit" />
+
+                    </footer>
+
+                </div>
+
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <div>Loading data...</div>
+}
+@code {
+    [Parameter] public IEnumerable<BeerDTO> Beers { get; set; }
+    [Parameter] public EventCallback<BeerDTO> DeleteBeer { get; set; }
+    [Parameter] public EventCallback<BeerDTO> SelectBeer { get; set; }
+    [Parameter] public string ErrorMessage { get; set; }
+}

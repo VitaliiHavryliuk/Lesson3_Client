@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0HyUgpdb9M+BSI8r9epJpgvk8+xWzGPBylvWd5Zlyyc=",
+  "Hash": "mirlBz43gSGmpULR4mHbkzmk1PLq6qINAuW3++lEYzs=",
   "Source": "Lesson3Client",
   "BasePath": "/",
   "Mode": "Root",
@@ -7053,23 +7053,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\index.html"
-    },
-    {
-      "Identity": "C:\\Projects\\Lesson3_Client\\Lesson3Client\\wwwroot\\sample-data\\weather.json",
-      "SourceId": "Lesson3Client",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Projects\\Lesson3_Client\\Lesson3Client\\wwwroot\\",
-      "BasePath": "/",
-      "RelativePath": "sample-data/weather.json",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\sample-data\\weather.json"
     },
     {
       "Identity": "C:\\Projects\\Lesson3_Client\\Lesson3Client\\wwwroot\\staticwebapp.config.json",

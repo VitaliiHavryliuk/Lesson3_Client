@@ -1,0 +1,94 @@
+﻿@page "/beer/{beerId:guid?}"
+@using Models.Input
+@using Models.Output
+@inject HttpClient http
+@inject NavigationManager navigation
+
+@if (beer == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card edit-detail">
+        <header class="card-header">
+            <p class="card-header-title">
+                @beer.Name
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                @if (BeerId != null)
+                {
+                    <label class="label" for="id">id</label>
+                    <input name="Id"
+                           class="input"
+                           value="@beer.Id"
+                           readonly="readonly" />
+                }
+                <InputDetail Name="Name"
+                             Placeholder="Oranges"
+                             @bind-Value="beer.Name" />
+                <InputDetail Name="Description"
+                             Placeholder="box"
+                             @bind-Value="beer.Description" />               
+            </div>
+        </div>
+        <footer class="card-footer ">
+            <ButtonFooter Class="cancel-button"
+                          IconClasses="fas fa-undo"
+                          OnClick="@CancelBeer"
+                          Label="Cancel" />
+            <ButtonFooter Class="save-button"
+                          IconClasses="fas fa-save"
+                          OnClick="@Save"
+                          Label="Save" />
+        </footer>
+    </div>
+}
+
+@code { 
+    private BeerDTO beer;
+
+    [Parameter] public Guid? BeerId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (BeerId == null)
+        {
+            beer = new BeerDTO();
+        }
+        else
+        {
+            var beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+            beer = beers.First(p => p.Id == BeerId);
+        }
+    }
+
+    private void CancelBeer()
+    {
+        navigation.NavigateTo("/");
+    }
+
+    private async Task Save()
+    {
+        if (BeerId == null)
+        {
+            await http.PostAsJsonAsync("api/Add", new CreateBeer
+            {
+                Name = beer.Name,
+                Description = beer.Description
+            });
+        }
+        else
+        {
+            await http.PutAsJsonAsync("api/Update", new UpdateBeer
+            {
+                Id = beer.Id,
+                Name = beer.Name,
+                Description = beer.Description
+            });
+        }
+        navigation.NavigateTo("/");
+    }
+}

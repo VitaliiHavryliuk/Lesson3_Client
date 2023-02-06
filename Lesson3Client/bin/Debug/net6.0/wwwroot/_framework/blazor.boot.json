@@ -199,15 +199,15 @@
       "mscorlib.dll": "sha256-zNVxhWqav+Wvwc8mjOqsl40bhVLw78MhgITrphqoROc=",
       "netstandard.dll": "sha256-yQ7oiuGXRX47V21EibXbfTPXOkJGOgCJhW9YF6e4hw0=",
       "System.Private.CoreLib.dll": "sha256-Ug2\/rd8Ck7Dls6uaZNmrqc7EvE8f41iX96qdX57LStQ=",
-      "Models.dll": "sha256-v3op+3VDFexDRZy4XdgB6jsE15Uu4SwnLzrqs5vkzXU=",
-      "Lesson3Client.dll": "sha256-VIKrG7Z0IK3qsUXkvUEmhFHG6DxvTK6P11zqFyG1Q8E="
+      "Models.dll": "sha256-wi0c8nUwZHIBTh4f9aypokw+LutreyFsgBrsxDh6UOE=",
+      "Lesson3Client.dll": "sha256-WfXWKCauVYRfSZlQVxjVz9sA37c6eF7Qc6lpk5xatGI="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "Models.pdb": "sha256-OTzRehl90LC9zEHU1au+1Bkn80V8e3bdS5jUNx\/RP8c=",
-      "Lesson3Client.pdb": "sha256-Y5upnDre1oeG3yHcAq5bywckHquan5MHQCol4Jv3MR8="
+      "Models.pdb": "sha256-qxbx5enKLuW2T9YX+wvMOzN6GORasAAFzyqS7SO6rX0=",
+      "Lesson3Client.pdb": "sha256-uBtMFEhw+LpabyxssSTjKZXvk7IhXf9KtVrsGstho+U="
     },
     "runtime": {
       "dotnet.6.0.6.atygjzz98c.js": "sha256-zJXgw\/tAzTVOXksPhtpZVT12vxHC7S9mQyBRM36dwD0=",

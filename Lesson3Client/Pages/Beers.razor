@@ -1,0 +1,73 @@
+﻿@page "/beers"
+@using Models.Output
+@inject HttpClient http
+@inject NavigationManager navigation
+
+<div class="content-container">
+    <ListHeader Title="My Beer List"
+                HandleAdd="@AddNewBeer"
+                HandleRefresh="@HandleRefresh"
+                RoutePath="/beers" />
+    <div class="columns is-multiline is-variable">
+        <div class="column is-8">
+            <BeerList ErrorMessage="@errorMessage"
+                         Beers="@beers"
+                         SelectBeer="@SelectBeer"
+                         DeleteBeer="@DeleteBeer" />
+        </div>
+    </div>
+
+    <ModalYesNo Message="@modalMessage"
+                OnNo="@CloseModal"
+                OnYes="@DeleteFromModal"
+                Show="@showModal"/>
+</div>
+
+@code {
+    private string errorMessage = "";
+    private IEnumerable<BeerDTO> beers;
+    private BeerDTO beerToDelete;
+    private bool showModal;
+    private string modalMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+    }
+
+    private void AddNewBeer()
+    {
+        navigation.NavigateTo("/beer");
+    }
+
+    private async Task HandleRefresh()
+    {
+        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+    }
+
+    private void SelectBeer(BeerDTO beer)
+    {
+        navigation.NavigateTo($"/beer/{beer.Id}");
+    }
+
+    private void DeleteBeer(BeerDTO beer)
+    {
+        beerToDelete = beer;
+        showModal = true;
+        modalMessage = $"Would you like to delete {beerToDelete.Name}";
+    }
+
+    private void CloseModal()
+    {
+        beerToDelete = null;
+        showModal = false;
+    }
+
+    private async Task DeleteFromModal()
+    {
+        await http.DeleteAsync($"api/{beerToDelete.Id}");
+        await HandleRefresh();
+        beerToDelete = null;
+        showModal = false;
+    }
+}
