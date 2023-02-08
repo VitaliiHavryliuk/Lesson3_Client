@@ -60,7 +60,7 @@ else
         }
         else
         {
-            var beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+            var beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("GetAll");
             beer = beers.First(p => p.Id == BeerId);
         }
     }
@@ -74,7 +74,7 @@ else
     {
         if (BeerId == null)
         {
-            await http.PostAsJsonAsync("api/Add", new CreateBeer
+            await http.PostAsJsonAsync("Add", new CreateBeer
             {
                 Name = beer.Name,
                 Description = beer.Description
@@ -82,7 +82,7 @@ else
         }
         else
         {
-            await http.PutAsJsonAsync("api/Update", new UpdateBeer
+            await http.PutAsJsonAsync("Update", new UpdateBeer
             {
                 Id = beer.Id,
                 Name = beer.Name,

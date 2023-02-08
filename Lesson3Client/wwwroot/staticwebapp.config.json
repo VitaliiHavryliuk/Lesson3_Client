@@ -2,5 +2,6 @@
   "navigationFallback": {
     "rewrite": "index.html",
     "exclude": [ "/_framework/*", "/css/*" ]
-  }
+  },
+  "API_Prefix": "localhost:7060"
 }

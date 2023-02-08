@@ -6,7 +6,6 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-var prefix = Environment.GetEnvironmentVariable("API_Prefix");
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(prefix ?? builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://lesson3apimanagement.azure-api.net/Lesson3API/v1/") });
 
 await builder.Build().RunAsync();

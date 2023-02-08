@@ -32,7 +32,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("GetAll");
     }
 
     private void AddNewBeer()
@@ -42,7 +42,7 @@
 
     private async Task HandleRefresh()
     {
-        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("api/GetAll");
+        beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("GetAll");
     }
 
     private void SelectBeer(BeerDTO beer)
@@ -65,7 +65,7 @@
 
     private async Task DeleteFromModal()
     {
-        await http.DeleteAsync($"api/{beerToDelete.Id}");
+        await http.DeleteAsync($"{beerToDelete.Id}");
         await HandleRefresh();
         beerToDelete = null;
         showModal = false;
