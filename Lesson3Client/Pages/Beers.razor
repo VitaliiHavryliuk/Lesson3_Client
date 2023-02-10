@@ -65,7 +65,7 @@
 
     private async Task DeleteFromModal()
     {
-        await http.DeleteAsync($"{beerToDelete.Id}");
+        await http.DeleteAsync($"Delete/{beerToDelete.Id}");
         await HandleRefresh();
         beerToDelete = null;
         showModal = false;

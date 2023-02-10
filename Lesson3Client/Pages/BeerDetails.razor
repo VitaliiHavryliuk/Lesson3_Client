@@ -1,8 +1,11 @@
 ﻿@page "/beer/{beerId:guid?}"
 @using Models.Input
 @using Models.Output
+@using System.Net.Http.Headers
+@using Tewr.Blazor.FileReader
 @inject HttpClient http
 @inject NavigationManager navigation
+@inject IFileReaderService fileReaderService;
 
 @if (beer == null)
 {
@@ -18,14 +21,29 @@ else
         </header>
         <div class="card-content">
             <div class="content">
+                <img src="@imageData" />
+                <input type="file" accept="image/png" id="fileUpload" @ref=fileUpload onchange="@UploadFile" style="display:none"/>
+                <label for="fileUpload" style="border: 1px solid; color:blueviolet">Upload file!</label>
+
+                @if(!string.IsNullOrEmpty(imageData))
+                {
+                    <ButtonFooter Class="cancel-button"
+                          IconClasses="fas fa-undo"
+                          OnClick="@RemovePhoto"
+                          Label="Remove" />
+                }
                 @if (BeerId != null)
                 {
+                    
                     <label class="label" for="id">id</label>
                     <input name="Id"
                            class="input"
                            value="@beer.Id"
-                           readonly="readonly" />
+                           readonly="readonly" /> 
                 }
+                
+
+
                 <InputDetail Name="Name"
                              Placeholder="Oranges"
                              @bind-Value="beer.Name" />
@@ -47,10 +65,30 @@ else
     </div>
 }
 
-@code { 
+@code {
     private BeerDTO beer;
-
+    ElementReference fileUpload;
+    string imageData = String.Empty;
+    private bool hasImage = true;
     [Parameter] public Guid? BeerId { get; set; }
+
+    async Task UploadFile()
+    {
+        var files = await fileReaderService.CreateReference(fileUpload).EnumerateFilesAsync();
+
+        using (MemoryStream memoryStream = await files.First().CreateMemoryStreamAsync())
+        {
+            byte[] bytes = memoryStream.ToArray();
+            imageData = $"data:image/png;base64,{Convert.ToBase64String(bytes)}";
+            hasImage = true;
+        }
+    }
+
+    private void RemovePhoto()
+    {
+        hasImage = false;
+        imageData = string.Empty;
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,6 +100,20 @@ else
         {
             var beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("GetAll");
             beer = beers.First(p => p.Id == BeerId);
+
+            try
+            {
+                var stream = await http.GetStreamAsync($"GetPhoto/{beer.Id}");
+                var ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+                byte[] bytes = ms.ToArray();
+                imageData = $"data:image/png;base64,{Convert.ToBase64String(bytes)}";
+                hasImage = true;
+            }
+            catch 
+            {
+                hasImage = false;
+            }
         }
     }
 
@@ -74,11 +126,17 @@ else
     {
         if (BeerId == null)
         {
-            await http.PostAsJsonAsync("Add", new CreateBeer
+            var response = await http.PostAsJsonAsync("Add", new CreateBeer
             {
                 Name = beer.Name,
                 Description = beer.Description
             });
+            var json = await response.Content.ReadFromJsonAsync<BeerDTO>();
+            BeerId = json.Id;
+            if (hasImage)
+            {
+                await SendUploadPhotoRequestAsync();
+            }
         }
         else
         {
@@ -88,7 +146,33 @@ else
                 Name = beer.Name,
                 Description = beer.Description
             });
+
+            if (!hasImage)
+            {
+                await http.DeleteAsync($"DeletePhoto/{BeerId}");
+            }
+            else if(!string.IsNullOrEmpty(imageData))
+            {
+                await SendUploadPhotoRequestAsync();
+            }
         }
         navigation.NavigateTo("/");
+    }
+
+    private async Task SendUploadPhotoRequestAsync()
+    {
+        var content = new MultipartFormDataContent();
+        var files = await fileReaderService.CreateReference(fileUpload).EnumerateFilesAsync();
+
+        using (MemoryStream memoryStream = await files.First().CreateMemoryStreamAsync())
+        {
+            var streamContent = new StreamContent(memoryStream);
+            streamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+            content.Add(streamContent, "\"files\"", "filename.png");
+            var response = await http.PostAsync(
+                    requestUri: $"UploadPhoto/{BeerId}",
+                    content: content
+                );
+        }
     }
 }

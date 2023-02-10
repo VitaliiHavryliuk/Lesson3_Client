@@ -1,4 +1,7 @@
-﻿@using Models.Output
+﻿@inject HttpClient Http
+@inject IJSRuntime JS
+
+@using Models.Output
 @if (!string.IsNullOrEmpty(ErrorMessage))
 {
     <div>@ErrorMessage</div>
@@ -10,6 +13,7 @@ else if (Beers != null && Beers.Count() > 0)
         {
             <li role="presentation">
                 <div class="card">
+                    <img id="image-@beer.Id"/>
                     <CardContent Name="@beer.Name"
                                  Description="@beer.Description" />
 
@@ -42,4 +46,30 @@ else
     [Parameter] public EventCallback<BeerDTO> DeleteBeer { get; set; }
     [Parameter] public EventCallback<BeerDTO> SelectBeer { get; set; }
     [Parameter] public string ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        foreach(var beer in Beers)
+        {
+            try
+            {
+                await SetImageAsync(beer.Id);
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    private async Task SetImageAsync(Guid id)
+    {
+        var imageStream = await Http.GetStreamAsync($"GetPhoto/{id}");
+        var dotnetImageStream = new DotNetStreamReference(imageStream);
+        await JS.InvokeVoidAsync("setImage", $"image-{id}", dotnetImageStream);
+    }
 }
