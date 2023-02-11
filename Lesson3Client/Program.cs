@@ -8,7 +8,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
-builder.Services.AddHttpClient("API_Client", client => client.BaseAddress = new Uri("https://lesson3apimanagement.azure-api.net/Lesson3API/v2/"))
+builder.Services.AddHttpClient("API_Client", client => client.BaseAddress = new Uri("http://localhost:7071/api/" ?? "https://lesson3apimanagement.azure-api.net/Lesson3API/v2/"))
     .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API_Client"));
@@ -18,9 +18,7 @@ builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = t
 builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-    options.ProviderOptions.DefaultAccessTokenScopes.Add("https://graph.microsoft.com/User.Read");
-    options.ProviderOptions.AdditionalScopesToConsent.Add("https://graph.microsoft.com/email");
-    options.ProviderOptions.AdditionalScopesToConsent.Add("https://graph.microsoft.com/profile");
+    options.ProviderOptions.DefaultAccessTokenScopes.Add("api://66d3c2fa-21f9-46e1-9f5c-11327099cd47/API.Access");
     options.ProviderOptions.LoginMode = "redirect";
 });
 
