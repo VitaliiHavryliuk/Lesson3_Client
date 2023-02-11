@@ -1,7 +1,7 @@
 ﻿@inject HttpClient Http
 @inject IJSRuntime JS
-
 @using Models.Output
+
 @if (!string.IsNullOrEmpty(ErrorMessage))
 {
     <div>@ErrorMessage</div>
@@ -37,20 +37,21 @@ else if (Beers != null && Beers.Count() > 0)
         }
     </ul>
 }
-else
+else if(Beers is null)
 {
     <div>Loading data...</div>
+}
+else if(Beers.Count() == 0)
+{
+    <div>Your list is empty! 
+        <br/> Add your first beer!
+    </div>
 }
 @code {
     [Parameter] public IEnumerable<BeerDTO> Beers { get; set; }
     [Parameter] public EventCallback<BeerDTO> DeleteBeer { get; set; }
     [Parameter] public EventCallback<BeerDTO> SelectBeer { get; set; }
     [Parameter] public string ErrorMessage { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -60,7 +61,7 @@ else
             {
                 await SetImageAsync(beer.Id);
             }
-            catch (Exception)
+            catch 
             {
             }
         }

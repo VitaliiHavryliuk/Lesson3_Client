@@ -1,8 +1,10 @@
 ﻿@page "/beer/{beerId:guid?}"
+@using Microsoft.AspNetCore.Authorization
 @using Models.Input
 @using Models.Output
 @using System.Net.Http.Headers
 @using Tewr.Blazor.FileReader
+@attribute [Authorize]
 @inject HttpClient http
 @inject NavigationManager navigation
 @inject IFileReaderService fileReaderService;
@@ -22,8 +24,13 @@ else
         <div class="card-content">
             <div class="content">
                 <img src="@imageData" />
-                <input type="file" accept="image/png" id="fileUpload" @ref=fileUpload onchange="@UploadFile" style="display:none"/>
-                <label for="fileUpload" style="border: 1px solid; color:blueviolet">Upload file!</label>
+                <div>
+                    <i class="fas fa-save"/>
+                    <input type="file" aria-label="Upload image!" class="link card-footer-item save-button" accept="image/png" id="fileUpload" @ref=fileUpload 
+                        oninput="@(async () => await UploadFile())" style="display:none"/>
+                    <a for="fileUpload" >Upload file!</a>
+                </div>
+                
 
                 @if(!string.IsNullOrEmpty(imageData))
                 {
@@ -42,8 +49,6 @@ else
                            readonly="readonly" /> 
                 }
                 
-
-
                 <InputDetail Name="Name"
                              Placeholder="Oranges"
                              @bind-Value="beer.Name" />

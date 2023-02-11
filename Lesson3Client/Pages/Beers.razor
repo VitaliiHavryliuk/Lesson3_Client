@@ -1,5 +1,7 @@
 ﻿@page "/beers"
+@using Microsoft.AspNetCore.Authorization
 @using Models.Output
+@attribute [Authorize]
 @inject HttpClient http
 @inject NavigationManager navigation
 
@@ -29,7 +31,7 @@
     private BeerDTO beerToDelete;
     private bool showModal;
     private string modalMessage = "";
-
+    
     protected override async Task OnInitializedAsync()
     {
         beers = await http.GetFromJsonAsync<IEnumerable<BeerDTO>>("GetAll");
