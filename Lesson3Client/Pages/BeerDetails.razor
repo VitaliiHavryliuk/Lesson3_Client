@@ -28,10 +28,9 @@ else
                     <i class="fas fa-save"/>
                     <input type="file" aria-label="Upload image!" class="link card-footer-item save-button" accept="image/png" id="fileUpload" @ref=fileUpload 
                         oninput="@(async () => await UploadFile())" style="display:none"/>
-                    <a for="fileUpload" >Upload file!</a>
+                    <label for="fileUpload" >Upload file!</label>
                 </div>
                 
-
                 @if(!string.IsNullOrEmpty(imageData))
                 {
                     <ButtonFooter Class="cancel-button"

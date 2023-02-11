@@ -55,6 +55,8 @@ else if(Beers.Count() == 0)
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender) return;
+
         foreach(var beer in Beers)
         {
             try

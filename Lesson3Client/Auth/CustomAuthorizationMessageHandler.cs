@@ -6,11 +6,12 @@ namespace Lesson3Client.Auth
     public class CustomAuthorizationMessageHandler : AuthorizationMessageHandler
     {
         public CustomAuthorizationMessageHandler(IAccessTokenProvider provider,
-            NavigationManager navigationManager)
+            NavigationManager navigationManager,
+            IConfiguration configuration)
             : base(provider, navigationManager)
         {
             ConfigureHandler(
-                authorizedUrls: new[] { "http://localhost:7071/api/" });
+                authorizedUrls: new[] { configuration["API_Prefix"] ?? "https://lesson3apimanagement.azure-api.net/Lesson3API/v2/" });
         }
     }
 }
