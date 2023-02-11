@@ -11,7 +11,7 @@ namespace Lesson3Client.Auth
             : base(provider, navigationManager)
         {
             ConfigureHandler(
-                authorizedUrls: new[] { configuration["API_Prefix"] ?? "https://lesson3apimanagement.azure-api.net/Lesson3API/v2/" });
+                authorizedUrls: new[] { "https://lesson3apimanagement.azure-api.net/Lesson3API/v2/" });
         }
     }
 }

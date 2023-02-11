@@ -1,6 +1,7 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-
+@attribute [AllowAnonymous]
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 

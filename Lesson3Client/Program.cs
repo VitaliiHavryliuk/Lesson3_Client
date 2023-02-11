@@ -8,7 +8,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<CustomAuthorizationMessageHandler>();
-builder.Services.AddHttpClient("API_Client", client => client.BaseAddress = new Uri(builder.Configuration["API_Prefix"] ?? "https://lesson3apimanagement.azure-api.net/Lesson3API/v2/"))
+builder.Services.AddHttpClient("API_Client", client => client.BaseAddress = new Uri("https://lesson3apimanagement.azure-api.net/Lesson3API/v2/"))
     .AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API_Client"));
