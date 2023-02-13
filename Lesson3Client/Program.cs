@@ -18,7 +18,7 @@ builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = t
 builder.Services.AddMsalAuthentication(options =>
 {
     builder.Configuration.Bind("AzureAd", options.ProviderOptions.Authentication);
-    options.ProviderOptions.DefaultAccessTokenScopes.Add("api://23e403d5-2302-4b2b-8e61-04464b990ff3/API.Access");
+    options.ProviderOptions.DefaultAccessTokenScopes.Add("66d3c2fa-21f9-46e1-9f5c-11327099cd47/API.Access");
     options.ProviderOptions.LoginMode = "redirect";
 });
 
