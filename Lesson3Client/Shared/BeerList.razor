@@ -9,7 +9,13 @@
 else if (Beers != null && Beers.Count() > 0)
 {
     <ul class="list">
-        @foreach (var beer in Beers)
+
+        <input class="input"
+           type="text"
+           value="@SearchValue"
+           @onchange="SearchBeers" />
+
+        @foreach (var beer in Beers.Where(x => string.IsNullOrEmpty(SearchValue) ? true : x.Name.ToLower().Contains(SearchValue.ToLower())))
         {
             <li role="presentation">
                 <div class="card">
@@ -53,9 +59,12 @@ else if(Beers.Count() == 0)
     [Parameter] public EventCallback<BeerDTO> SelectBeer { get; set; }
     [Parameter] public string ErrorMessage { get; set; }
 
+    private string SearchValue { get; set; } = string.Empty;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender) return;
+        
 
         foreach(var beer in Beers)
         {
@@ -67,6 +76,11 @@ else if(Beers.Count() == 0)
             {
             }
         }
+    }
+
+    private void SearchBeers(ChangeEventArgs e)
+    {
+        SearchValue = e?.Value?.ToString();
     }
 
     private async Task SetImageAsync(Guid id)
